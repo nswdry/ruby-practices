@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-for i in 1..20 do
+(1..20).each do |i|
   if i % 5 == 0 && i % 3 == 0
     puts "FizzBuzz"
   elsif i % 5 == 0
@@ -11,4 +11,5 @@ for i in 1..20 do
     puts i
   end
 end
+
 
