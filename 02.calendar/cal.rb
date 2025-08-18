@@ -23,7 +23,7 @@ print "   " * first_date.wday
 
 (first_date..last_date).each do |date|
   printf("%2d", date.day)
-  if date.wday == 6 || date.day == last_date.day
+  if date.saturday? || date == last_date
     print "\n"
   else
     print " "
