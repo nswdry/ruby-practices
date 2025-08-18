@@ -22,7 +22,7 @@ puts "日 月 火 水 木 金 土"
 print "   " * first_date.wday
 
 (first_date..last_date).each do |date|
-  printf("%2d", date.day)
+  print date.day.to_s.rjust(2)
   if date.saturday? || date == last_date
     puts
   else
