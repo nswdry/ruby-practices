@@ -24,7 +24,7 @@ print "   " * first_date.wday
 (first_date..last_date).each do |date|
   printf("%2d", date.day)
   if date.saturday? || date == last_date
-    print "\n"
+    puts
   else
     print " "
   end
