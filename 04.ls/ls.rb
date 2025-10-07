@@ -1,15 +1,17 @@
+# frozen_string_literal: true
+
 require 'io/console'
 
 def main
   files = fetch_dir_contents
   width = IO.console.winsize[1]
-  max_length = files.map { |f| f.length }.max
+  max_length = files.map(&:length).max
   cols = calc_columns(width, max_length)
   display_in_columns(files, cols, max_length)
 end
 
 def fetch_dir_contents
-  Dir.glob("*")
+  Dir.glob('*')
 end
 
 def calc_columns(width, max_length)
@@ -24,12 +26,11 @@ end
 
 def display_in_columns(files, cols, max_length)
   row_count = (files.size / cols.to_f).ceil
-  rows = files.each_slice(row_count).map{ |slice| slice.fill("", slice.size...row_count)}.transpose
+  rows = files.each_slice(row_count).map { |slice| slice.fill('', slice.size...row_count) }.transpose
 
   rows.each do |row|
-    puts row.map{ |f| f.ljust(max_length)}.join(" ")
+    puts row.map { |f| f.ljust(max_length) }.join(' ')
   end
 end
 
 main
-
