@@ -1,3 +1,13 @@
+require 'io/console'
+
+def main
+  files = fetch_dir_contents
+  width = IO.console.winsize[1]
+  max_length = files.map { |f| f.length }.max
+  cols = calc_columns(width, max_length)
+  display_in_columns(files, cols, max_length)
+end
+
 def fetch_dir_contents
   Dir.glob("*")
 end
@@ -20,3 +30,6 @@ def display_in_columns(files, cols, max_length)
     puts row.map{ |f| f.ljust(max_length)}.join(" ")
   end
 end
+
+main
+
