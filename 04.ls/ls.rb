@@ -25,7 +25,7 @@ def calc_columns(width, max_length)
 end
 
 def display_in_columns(files, cols, max_length)
-  row_count = (files.size / cols.to_f).ceil
+  row_count = files.size.ceildiv(cols)
   rows = files.each_slice(row_count).map { |slice| slice.fill('', slice.size...row_count) }.transpose
 
   rows.each do |row|
