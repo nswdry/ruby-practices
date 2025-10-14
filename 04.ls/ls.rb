@@ -15,13 +15,7 @@ def fetch_dir_contents
 end
 
 def calc_columns(width, max_length)
-  if width < 2 * (max_length + 1)
-    1
-  elsif width < 3 * (max_length + 1)
-    2
-  else
-    3
-  end
+  (width / (max_length + 1)).floor.clamp(1, 3)
 end
 
 def display_in_columns(files, cols, max_length)
