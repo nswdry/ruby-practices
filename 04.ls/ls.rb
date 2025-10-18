@@ -20,7 +20,7 @@ end
 
 def fetch_dir_contents(params)
   if params[:a]
-    Dir.entries('.').sort
+    Dir.glob('*', File::FNM_DOTMATCH)
   else
     Dir.glob('*')
   end
