@@ -19,11 +19,7 @@ def main(params)
 end
 
 def fetch_dir_contents(params)
-  if params[:a]
-    Dir.glob('*', File::FNM_DOTMATCH)
-  else
-    Dir.glob('*')
-  end
+  Dir.glob('*', params[:a] ? File::FNM_DOTMATCH : 0)
 end
 
 def calc_columns(width, max_length)
