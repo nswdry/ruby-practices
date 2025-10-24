@@ -8,6 +8,7 @@ opt = OptionParser.new
 params = {}
 
 opt.on('-a') { params[:a] = true }
+opt.on('-r') { params[:r] = true }
 opt.parse(ARGV)
 
 def main(params)
@@ -20,6 +21,7 @@ end
 
 def fetch_dir_contents(params)
   Dir.glob('*', params[:a] ? File::FNM_DOTMATCH : 0)
+     .then { |list| params[:r] ? list.reverse : list }
 end
 
 def calc_columns(width, max_length)
