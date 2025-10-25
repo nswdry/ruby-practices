@@ -21,7 +21,7 @@ end
 
 def fetch_dir_contents(params)
   Dir.glob('*', params[:a] ? File::FNM_DOTMATCH : 0)
-     .then { |list| params[:r] ? list.reverse : list }
+     .then { params[:r] ? it.reverse : it }
 end
 
 def calc_columns(width, max_length)
