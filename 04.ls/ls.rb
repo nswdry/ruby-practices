@@ -9,6 +9,7 @@ params = {}
 
 opt.on('-a') { params[:a] = true }
 opt.on('-r') { params[:r] = true }
+opt.on('-l') { params[:l] = true }
 opt.parse(ARGV)
 
 def main(params)
@@ -16,7 +17,11 @@ def main(params)
   width = IO.console.winsize[1]
   max_length = files.map(&:length).max
   cols = calc_columns(width, max_length)
-  display_in_columns(files, cols, max_length)
+  if params[:l]
+    display_long
+  else
+    display_in_columns(files, cols, max_length)
+  end
 end
 
 def fetch_dir_contents(params)
@@ -36,5 +41,7 @@ def display_in_columns(files, cols, max_length)
     puts row.map { |f| f.ljust(max_length) }.join(' ')
   end
 end
+
+def display_long; end
 
 main(params)
