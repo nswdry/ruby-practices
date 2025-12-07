@@ -50,17 +50,12 @@ def display_long(files, stat)
   total_blocks = stat.values.sum(&:blocks)
   puts "total #{total_blocks}"
 
-  link_width = stat.values.map { it.nlink.to_s.length }.max
-  user_width = stat.values.map { Etc.getpwuid(it.uid).name.length }.max
-  group_width = stat.values.map { Etc.getgrgid(it.gid).name.length }.max
-  size_width = stat.values.map { it.size.to_s.length }.max
+  link = stat.values.map { it.nlink.to_s.length }.max
+  user = stat.values.map { Etc.getpwuid(it.uid).name.length }.max
+  group = stat.values.map { Etc.getgrgid(it.gid).name.length }.max
+  size = stat.values.map { it.size.to_s.length }.max
 
-  field_widths = {
-    link: link_width,
-    user: user_width,
-    group: group_width,
-    size: size_width
-  }
+  field_widths = { link:, user:, group:, size: }
 
   files.each do
     puts format_long_line(it, stat[it], field_widths)
