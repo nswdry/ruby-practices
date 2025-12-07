@@ -17,12 +17,13 @@ opt.parse(ARGV)
 def main(params)
   files = fetch_dir_contents(params)
   stat = files.to_h { [it, File.lstat(it)] }
-  width = IO.console.winsize[1]
-  max_length = files.map(&:length).max
-  cols = calc_columns(width, max_length)
+
   if params[:l]
     display_long(files, stat)
   else
+    width = IO.console.winsize[1]
+    max_length = files.map(&:length).max
+    cols = calc_columns(width, max_length)
     display_in_columns(files, cols, max_length)
   end
 end
