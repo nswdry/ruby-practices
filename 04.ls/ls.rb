@@ -47,13 +47,14 @@ def display_in_columns(files, cols, max_length)
 end
 
 def display_long(files, stat)
-  total_blocks = stat.values.sum(&:blocks)
+  file_stats = stat.values
+  total_blocks = file_stats.sum(&:blocks)
   puts "total #{total_blocks}"
 
-  link = stat.values.map { it.nlink.to_s.length }.max
-  user = stat.values.map { Etc.getpwuid(it.uid).name.length }.max
-  group = stat.values.map { Etc.getgrgid(it.gid).name.length }.max
-  size = stat.values.map { it.size.to_s.length }.max
+  link = file_stats.map { it.nlink.to_s.length }.max
+  user = file_stats.map { Etc.getpwuid(it.uid).name.length }.max
+  group = file_stats.map { Etc.getgrgid(it.gid).name.length }.max
+  size = file_stats.map { it.size.to_s.length }.max
 
   field_widths = { link:, user:, group:, size: }
 
