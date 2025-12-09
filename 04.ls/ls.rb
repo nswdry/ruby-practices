@@ -71,12 +71,9 @@ def format_long_line(file, stat, field_widths)
   group_name = Etc.getgrgid(stat.gid).name
   size = stat.size
 
-  last_updated =
-    if stat.mtime.to_date >= Date.today << 6
-      stat.mtime.strftime('%_m %_d %H:%M')
-    else
-      stat.mtime.strftime('%_m %_d %Y')
-    end
+  last_updated = stat.mtime.strftime(
+    stat.mtime.to_date >= Date.today << 6 ? '%_m %_d %H:%M' : '%_m %_d %Y'
+  )
 
   format "%s%s  %-#{field_widths[:link]}d %#{field_widths[:user]}s  %#{field_widths[:group]}s  %#{field_widths[:size]}d %s %s",
          type, permission, link, user_name, group_name, size, last_updated, file
