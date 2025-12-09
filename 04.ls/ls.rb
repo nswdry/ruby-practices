@@ -104,7 +104,7 @@ def format_mode(stat)
     x = stat.mode & it[:x] != 0 ? 'x' : '-'
 
     if stat.mode & it[:special] != 0
-      x = x == 'x' ? it[:exec][0] : it[:exec][1]
+      x = it[:exec][x == 'x' ? 0 : 1]
     end
 
     "#{r}#{w}#{x}"
