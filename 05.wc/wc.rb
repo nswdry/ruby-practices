@@ -10,7 +10,8 @@ opt.on('-w') { params[:w] = true }
 opt.on('-c') { params[:c] = true }
 
 opt.parse!(ARGV)
-files = ARGV
+
+files = ARGV.empty? ? [$stdin] : ARGV
 
 def main(files, params)
   columns = select_columns(params)
@@ -32,12 +33,12 @@ end
 
 def fetch_files(files)
   files.map do |file|
-    content = File.read(file)
+    content = file == $stdin ? $stdin.read : File.read(file)
     {
       line: content.lines.size,
       word: content.split.size,
       byte: content.bytesize,
-      file: file
+      file: file == $stdin ? nil : file
     }
   end
 end
@@ -66,7 +67,7 @@ def print_results(results, field_widths, columns)
     columns.each do |col|
       printf " %#{field_widths[col]}d", row[col]
     end
-    puts " #{row[:file]}"
+    puts row[:file] ? " #{row[:file]}" : nil
   end
 end
 
