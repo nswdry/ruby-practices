@@ -15,6 +15,7 @@ files = ARGV
 def main(files, params)
   columns = select_columns(params)
   results = fetch_files(files)
+  results << calculate_total(results) if results.size > 1
   field_widths = calculate_field_widths(results)
   print_results(results, field_widths, columns)
 end
@@ -39,6 +40,15 @@ def fetch_files(files)
       file: file
     }
   end
+end
+
+def calculate_total(results)
+  {
+    line: results.sum { it[:line] },
+    word: results.sum { it[:word] },
+    byte: results.sum { it[:byte] },
+    file: 'total'
+  }
 end
 
 def calculate_field_widths(results)
