@@ -2,13 +2,31 @@
 
 require 'optparse'
 
-ARGV.getopts('l', 'w', 'c')
+opt = OptionParser.new
+params = {}
+
+opt.on('-l') { params[:l] = true }
+opt.on('-w') { params[:w] = true }
+opt.on('-c') { params[:c] = true }
+
+opt.parse!(ARGV)
 files = ARGV
 
-def main(files)
+def main(files, params)
+  columns = select_columns(params)
   results = fetch_files(files)
   field_widths = calculate_field_widths(results)
-  print_results(results, field_widths)
+  print_results(results, field_widths, columns)
+end
+
+def select_columns(params)
+  return %i[line word byte] if params.values.none?
+
+  cols = []
+  cols << :line if params[:l]
+  cols << :word if params[:w]
+  cols << :byte if params[:c]
+  cols
 end
 
 def fetch_files(files)
@@ -33,10 +51,13 @@ def calculate_field_widths(results)
   { line:, word:, byte: }
 end
 
-def print_results(results, field_widths)
-  results.each do
-    printf " %#{field_widths[:line]}d %#{field_widths[:word]}d %#{field_widths[:byte]}d %s\n", it[:line], it[:word], it[:byte], it[:file]
+def print_results(results, field_widths, columns)
+  results.each do |row|
+    columns.each do |col|
+      printf " %#{field_widths[col]}d", row[col]
+    end
+    puts " #{row[:file]}"
   end
 end
 
-main(files)
+main(files, params)
