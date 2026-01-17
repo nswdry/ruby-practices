@@ -68,7 +68,7 @@ def print_results(results, field_widths, columns)
     columns.each do |col|
       printf " %#{field_widths[col]}d", row[col]
     end
-    puts row[:file] ? " #{row[:file]}" : nil
+    puts row[:file] && " #{row[:file]}"
   end
 end
 
