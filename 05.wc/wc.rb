@@ -66,7 +66,7 @@ end
 def print_results(results, field_widths, columns)
   results.each do |row|
     columns.each do |col|
-      printf " %#{field_widths[col]}d", row[col]
+      print " #{row[col].to_s.rjust(field_widths[col])}"
     end
     puts row[:file] && " #{row[:file]}"
   end
