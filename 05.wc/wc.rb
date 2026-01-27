@@ -17,8 +17,8 @@ files = ARGV.empty? ? [$stdin] : ARGV
 def main(files, params)
   columns = select_columns(params)
   results = fetch_files(files)
-  results << calculate_total(results) if results.size > 1
-  field_widths = calculate_field_widths(results)
+  results << calculate_total(columns, results) if results.size > 1
+  field_widths = calculate_field_widths(columns, results)
   print_results(results, field_widths, columns)
 end
 
@@ -44,23 +44,21 @@ def fetch_files(files)
   end
 end
 
-def calculate_total(results)
-  {
-    line: results.sum { it[:line] },
-    word: results.sum { it[:word] },
-    byte: results.sum { it[:byte] },
-    file: 'total'
-  }
+def calculate_total(columns, results)
+  total = columns.each_with_object({}) do |col, total|
+    total[col] = results.sum { it[col] }
+  end
+
+  total[:file] = 'total'
+  total
 end
 
-def calculate_field_widths(results)
+def calculate_field_widths(columns, results)
   min_width = 7
 
-  line = [results.map { it[:line] }.max.to_s.length, min_width].max
-  word = [results.map { it[:word] }.max.to_s.length, min_width].max
-  byte = [results.map { it[:byte] }.max.to_s.length, min_width].max
-
-  { line:, word:, byte: }
+  columns.each_with_object({}) do |col, widths|
+    widths[col] = [results.map { it[col] }.max.to_s.length, min_width].max
+  end
 end
 
 def print_results(results, field_widths, columns)
