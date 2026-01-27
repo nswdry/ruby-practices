@@ -12,7 +12,7 @@ opt.on('-c') { params[:c] = true }
 
 opt.parse!(ARGV)
 
-files = ARGV.empty? ? [$stdin] : ARGV
+files = ARGV.empty? ? [{ content: $stdin.read, name: nil }] : ARGV.map { { content: File.read(it), name: it } }
 
 def main(files, params)
   columns = select_columns(params)
@@ -34,12 +34,11 @@ end
 
 def fetch_files(files)
   files.map do |file|
-    content = file == $stdin ? $stdin.read : File.read(file)
     {
-      line: content.lines.size,
-      word: content.split.size,
-      byte: content.bytesize,
-      file: file == $stdin ? nil : file
+      line: file[:content].lines.size,
+      word: file[:content].split.size,
+      byte: file[:content].bytesize,
+      file: file[:name]
     }
   end
 end
