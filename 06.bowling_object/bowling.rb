@@ -3,11 +3,7 @@
 
 require_relative 'game'
 
-def convert(shot)
-  shot == 'X' ? 10 : shot.to_i
-end
-
-shots = ARGV[0].split(',').map { |s| convert(s) }
+shots = ARGV[0].split(',').map { |s| Shot.convert(s) }
 
 game = Game.new
 shots.each { |shot| game.throw(shot) }

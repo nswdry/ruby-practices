@@ -7,6 +7,10 @@ class Shot
     @pins = pins
   end
 
+  def self.convert(shot)
+    shot == 'X' ? 10 : shot.to_i
+  end
+
   def strike?
     pins == 10
   end
