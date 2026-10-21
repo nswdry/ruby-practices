@@ -9,9 +9,9 @@ class Game
     @frames = Array.new(FRAME_COUNT - 1) { Frame.new } + [LastFrame.new]
   end
 
-  def add_shot(pins)
+  def throw(pins)
     current_frame = @frames.find { |frame| !frame.complete? }
-    current_frame.add_shot(pins)
+    current_frame.throw(pins)
   end
 
   def score

@@ -10,6 +10,6 @@ end
 shots = ARGV[0].split(',').map { |s| convert(s) }
 
 game = Game.new
-shots.each { |shot| game.add_shot(shot) }
+shots.each { |shot| game.throw(shot) }
 
 puts game.score

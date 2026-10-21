@@ -9,7 +9,7 @@ class Frame
     @shots = []
   end
 
-  def add_shot(pins)
+  def throw(pins)
     shots << Shot.new(pins)
   end
 
