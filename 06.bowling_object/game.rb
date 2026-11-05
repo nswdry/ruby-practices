@@ -20,16 +20,7 @@ class Game
     total = 0
 
     @frames.each do |frame|
-      total += if frame.equal?(@frames.last)
-                 frame.base_score
-               elsif frame.strike?
-                 10 + all_pins[shot_index + 1, 2].sum
-               elsif frame.spare?
-                 10 + all_pins[shot_index + 2]
-               else
-                 frame.base_score
-               end
-
+      total += frame.score(all_pins, shot_index)
       shot_index += frame.shots.size
     end
 

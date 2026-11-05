@@ -30,6 +30,16 @@ class Frame
   def base_score
     shots.sum(&:pins)
   end
+
+  def score(all_pins, shot_index)
+    if strike?
+      10 + all_pins[shot_index + 1, 2].sum
+    elsif spare?
+      10 + all_pins[shot_index + 2]
+    else
+      base_score
+    end
+  end
 end
 
 class LastFrame < Frame
