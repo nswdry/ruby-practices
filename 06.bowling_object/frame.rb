@@ -14,7 +14,7 @@ class Frame
   end
 
   def strike?
-    shots.first&.strike? || false
+    !!shots.first&.strike?
   end
 
   def spare?
