@@ -15,12 +15,11 @@ class Game
   end
 
   def score
-    all_pins = @frames.flat_map(&:shots).map(&:pins)
     shot_index = 0
     total = 0
 
     @frames.each do |frame|
-      total += frame.score(all_pins, shot_index)
+      total += frame.score(@frames, shot_index)
       shot_index += frame.shots.size
     end
 

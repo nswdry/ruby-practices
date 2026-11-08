@@ -31,14 +31,19 @@ class Frame
     shots.sum(&:pins)
   end
 
-  def score(all_pins, shot_index)
-    if strike?
-      10 + all_pins[shot_index + 1, 2].sum
-    elsif spare?
-      10 + all_pins[shot_index + 2]
-    else
-      base_score
-    end
+  def score(frames, shot_index)
+    all_pins = frames.flat_map(&:shots).map(&:pins)
+    next_index = shot_index + shots.size
+
+    bonus = if strike?
+              all_pins[next_index, 2].sum
+            elsif spare?
+              all_pins[next_index]
+            else
+              0
+            end
+
+    base_score + bonus
   end
 end
 
